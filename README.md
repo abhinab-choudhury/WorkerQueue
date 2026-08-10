@@ -16,10 +16,10 @@ The system is deliberately split into small, independently deployable microservi
                         └──────────────┬──────────────┘
                                        │ HTTP
                                        ▼
-                 ┌─────────────────────────────────────────┐
+                 ┌──────────────────────────────────────────┐
                  │              producer-service            │
                  │  REST API · request validation · enqueue │
-                 └──────────────────────┬──────────────────┘
+                 └──────────────────────┬───────────────────┘
                                         │ LPUSH (Redis List)
                                         ▼
                         ┌─────────────────────────────┐
@@ -28,18 +28,18 @@ The system is deliberately split into small, independently deployable microservi
                         └─────────────────────────────┘
                                         │ BRPOP (blocking pop)
                                         ▼
-                 ┌─────────────────────────────────────────┐
+                 ┌──────────────────────────────────────────┐
                  │              worker-service              │
                  │  queue consumer · type routing · threads │
                  │  WebClient (HTTP dispatch to handlers)   │
                  └───────┬───────────────┬──────────┬───────┘
                          │               │          │
                          ▼               ▼          ▼
-                 ┌─────────────┐ ┌─────────────┐ ┌─────────────┐
+                 ┌──────────────┐ ┌─────────────┐ ┌─────────────┐
                  │ email-service│ │image-service│ │video-service│
                  │  send email  │ │  process    │ │  FFmpeg     │
                  │              │ │  image      │ │  encoding   │
-                 └─────────────┘ └─────────────┘ └─────────────┘
+                 └──────────────┘ └─────────────┘ └─────────────┘
 ```
 
 ## System Components
@@ -119,6 +119,3 @@ docker compose -f infra/docker-compose.yml up redis
 - [ ] Job status tracking (queued → running → done/failed)
 - [ ] Queue monitoring (depth, latency, per-type throughput)
 
-## License
-
-[MIT](LICENSE.md)
